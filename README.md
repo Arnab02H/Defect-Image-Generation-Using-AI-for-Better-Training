@@ -62,16 +62,16 @@ Manufacturers often have large datasets of **non-defective (good)** parts but ve
 > Try the app: Upload a ZIP file of images → choose number of synthetic images → download results!
 ---
 
-## 🖥️ Web Application Screenshots
+## 🖼️ Web App Screenshots
 
-### 🔸 Homepage
-![Homepage](./assets/Home.png)
+### 🔹 Homepage
+<img src="./assets/Home.png" width="500"/>
 
-### 🔸 Upload Image and Generate Image
-![Upload Page](./assets/Generate.png)
+### 🔹 Upload and Generate Page
+<img src="./assets/Generate.png" width="500"/>
 
-### 🔸 Contact Page
-![Results](./assets/Contact.png)
+### 🔹 Contact Page
+<img src="./assets/Contact.png" width="500"/>
 
 ---
 
