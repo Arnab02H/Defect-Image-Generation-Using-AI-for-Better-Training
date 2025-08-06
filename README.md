@@ -1,4 +1,4 @@
-#  Defect Image Generation using AI (VAE, GAN, DDPM, StyleGAN)
+#  Defect Image Generation using AI for better training
 
 > **Generate synthetic defect images for low-sample datasets using advanced generative models — integrated with a full-stack web app (Next.js + FastAPI).**
 
