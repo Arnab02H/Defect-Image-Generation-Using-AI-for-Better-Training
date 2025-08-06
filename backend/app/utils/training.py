@@ -1,8 +1,11 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from app.models import Generator, Discriminator
+from app.models import Generator, Discriminator 
+from app.models.discriminator import weights_init
+import os 
 
+### This Code is Working 
 def train_gan(images, epochs=50, batch_size=32, latent_dim=100):
     device = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
     generator = Generator(latent_dim).to(device)
