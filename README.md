@@ -60,6 +60,18 @@ Manufacturers often have large datasets of **non-defective (good)** parts but ve
 | **Features** | Upload ZIP → Train Model → Generate Images → Download ZIP |
 
 > Try the app: Upload a ZIP file of images → choose number of synthetic images → download results!
+---
+
+## 🖥️ Web Application Screenshots
+
+### 🔸 Homepage
+![Homepage](./assets/Home.png)
+
+### 🔸 Upload Image and Generate Image
+![Upload Page](./assets/Generate.png)
+
+### 🔸 Contact Page
+![Results](./assets/Contact.png)
 
 ---
 
