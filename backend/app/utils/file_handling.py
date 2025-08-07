@@ -6,12 +6,14 @@ from pathlib import Path
 import base64
 
 GENERATED_DIR = Path("generated")
+UPLOAD_DIR=Path("uploads")
+
 
 def save_images_to_zip(images, output_zip_path):
     with zipfile.ZipFile(output_zip_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
         for i, img in enumerate(images):
-            img = (img.permute(1, 2, 0).numpy() * 0.5 + 0.5) * 255
-            img = img.astype(np.uint8)
+            # Input images are NumPy arrays with shape [H, W, C], values in [0, 255], dtype uint8
+            # No need for permute or normalization since generate_images already handled it
             pil_img = Image.fromarray(img)
             img_byte_arr = io.BytesIO()
             pil_img.save(img_byte_arr, format='PNG')

@@ -28,7 +28,7 @@ async def generate(file: UploadFile = File(...), num_images: int = Form(...)):
     if num_images < 1 or num_images > 100:
         logger.error(f"Invalid number of images: {num_images}")
         raise HTTPException(status_code=400, detail="Number of images must be between 1 and 100")
-    if file.size > 100 * 1024 * 1024:  # 100MB limit
+    if file.size > 10* 1024 * 1024:  # 100MB limit
         logger.error("File too large")
         raise HTTPException(status_code=400, detail="File size exceeds 10MB limit")
 
@@ -55,7 +55,7 @@ async def generate(file: UploadFile = File(...), num_images: int = Form(...)):
 
     # Train GAN
     try:
-        generator = train_gan(images, epochs=50, batch_size=32)
+        generator = train_gan(images)
         logger.info("GAN training completed")
     except Exception as e:
         logger.error(f"GAN training failed: {str(e)}")
@@ -63,7 +63,7 @@ async def generate(file: UploadFile = File(...), num_images: int = Form(...)):
 
     # Generate images
     try:
-        generated_imgs = generate_images(generator, num_images)
+        generated_imgs = generate_images(images,generator, num_images)
         logger.info(f"Generated {num_images} images")
     except Exception as e:
         logger.error(f"Image generation failed: {str(e)}")
@@ -78,7 +78,7 @@ async def generate(file: UploadFile = File(...), num_images: int = Form(...)):
         logger.error(f"Failed to save generated images: {str(e)}")
         raise HTTPException(status_code=500, detail="Failed to save generated images")
 
-    # Clean up
+    # # Clean up
     try:
         shutil.rmtree(UPLOAD_DIR)
         UPLOAD_DIR.mkdir(exist_ok=True)
@@ -101,9 +101,11 @@ async def generate(file: UploadFile = File(...), num_images: int = Form(...)):
         headers={"Content-Disposition": "attachment; filename=generated_images.zip"}
     )
 ### Showing sample images 
+
+
 @router.get("/sample-images")
 async def sample_images():
-    output_zip_path = GENERATED_DIR / "generated_images.zip"
+    output_zip_path = UPLOAD_DIR 
     if not output_zip_path.exists():
         logger.error("No generated images available")
         raise HTTPException(status_code=404, detail="No generated images available")
@@ -123,17 +125,17 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 ZIP_PATH = os.path.join(BASE_DIR, "generated", "generated_images.zip")
 @router.get("/generated-images")
 async def generated_images():
-    pth=ZIP_PATH 
+    pth= ZIP_PATH
     if not pth.exists():
         logger.error("No generated images available")
         raise HTTPException(status_code=404, detail="No generated images available")
     try:
-        sample_images = get_sample_images(pth, num_samples=5)
+        generate_images = get_sample_images(pth, num_samples=5)
         if not sample_images:
             logger.error("No valid sample images found")
             raise HTTPException(status_code=400, detail="No valid sample images found")
-        logger.info(f"Returning {len(sample_images)} sample images")
-        return {"images": sample_images}
+        logger.info(f"Returning {len(generate_images)} sample images")
+        return {"images": generate_images}
     except Exception as e:
         logger.error(f"Failed to fetch sample images: {str(e)}")
         raise HTTPException(status_code=500, detail="Failed to fetch sample images")
